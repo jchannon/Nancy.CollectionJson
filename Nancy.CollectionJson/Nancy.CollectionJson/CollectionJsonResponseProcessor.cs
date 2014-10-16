@@ -1,7 +1,7 @@
 ﻿using System;
-using Nancy.Responses.Negotiation;
 using System.Collections.Generic;
 using System.Linq;
+using Nancy.Responses.Negotiation;
 
 namespace Nancy.CollectionJson
 {
@@ -12,8 +12,11 @@ namespace Nancy.CollectionJson
 
         private readonly ISerializer serializer;
 
-        public CollectionJsonResponseProcessor(IEnumerable<ISerializer> serializers)
+        ICollectionJsonDocumentWriterFactory writerFactory;
+
+        public CollectionJsonResponseProcessor(IEnumerable<ISerializer> serializers, ICollectionJsonDocumentWriterFactory writerFactory)
         {
+            this.writerFactory = writerFactory;
             this.serializer = serializers.FirstOrDefault(x => x.CanSerialize("application/json"));
         }
 
@@ -46,10 +49,10 @@ namespace Nancy.CollectionJson
 
         public Response Process(MediaRange requestedMediaRange, dynamic model, NancyContext context)
         {
-            return new CollectionJsonResponse(model, this.serializer);
+            return new CollectionJsonResponse(model, this.serializer, this.writerFactory, context);
         }
 
-        public System.Collections.Generic.IEnumerable<Tuple<string, MediaRange>> ExtensionMappings
+        public IEnumerable<Tuple<string, MediaRange>> ExtensionMappings
         {
             get
             {
@@ -85,5 +88,6 @@ namespace Nancy.CollectionJson
             subtypeString.EndsWith("collection+json", StringComparison.InvariantCultureIgnoreCase));
         }
     }
+
 }
 
