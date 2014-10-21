@@ -18,7 +18,7 @@ namespace Nancy.CollectionJson.Demo
         {
             base.ConfigureApplicationContainer(container);
 
-            container.RegisterMultiple<ILinkGenerator>(new[]{ typeof(FriendLinkGenerator) });
+            container.RegisterMultiple<ILinkGenerator>(new[]{ typeof(FriendsLinkGenerator) });
             container.Register<ICollectionJsonDocumentReader<Friend>, FriendDocumentReader>();
             container.Register<IWriteDocument,WriteDocument>();
         }

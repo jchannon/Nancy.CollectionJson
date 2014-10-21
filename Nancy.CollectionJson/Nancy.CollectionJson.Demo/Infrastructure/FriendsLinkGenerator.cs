@@ -8,7 +8,7 @@ using Nancy.CollectionJson.Demo.Models;
 
 namespace Nancy.CollectionJson.Demo.Infrastructure
 {
-    public class FriendLinkGenerator : ILinkGenerator
+    public class FriendsLinkGenerator : ILinkGenerator
     {
         public bool CanHandle(Type model)
         {
@@ -18,14 +18,27 @@ namespace Nancy.CollectionJson.Demo.Infrastructure
             {
                 return true;
             }
+
+            if (model == typeof(Friend))
+            {
+                return true;
+            }
               
             return false;
         }
 
         public Collection Handle(object model, NancyContext context)
         {
-            var doc = new FriendDocumentWriter(context);
-            var blah = doc.Write((IEnumerable<Friend>)model);
+            var doc = new FriendsDocumentWriter(context);
+            var modeldata = model as IEnumerable<Friend>;
+            if (modeldata == null)
+            {
+                var oneFriend = (Friend)model;
+                var ber = doc.Write(oneFriend);
+                return ber.Collection;
+            }
+
+            var blah = doc.Write(modeldata);
             return blah.Collection;
         }
     }

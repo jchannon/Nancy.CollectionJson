@@ -6,11 +6,11 @@ using Nancy.CollectionJson.Demo.Models;
 
 namespace Nancy.CollectionJson.Demo.Infrastructure
 {
-    public class FriendDocumentWriter : ICollectionJsonDocumentWriter<Friend>
+    public class FriendsDocumentWriter : ICollectionJsonDocumentWriter<Friend>
     {
         private readonly Uri _requestUri;
 
-        public FriendDocumentWriter(NancyContext ctx)
+        public FriendsDocumentWriter(NancyContext ctx)
         {
             _requestUri = ctx.Request.Url;
         }

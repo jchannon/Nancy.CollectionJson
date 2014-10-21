@@ -17,20 +17,29 @@ namespace Nancy.CollectionJson.Demo
                 return friends;
             };
 
+            Get["/"] = _ =>
+            {
+                var friends = repo.GetAll(); 
+                return friends;
+            };
+
+            Get["/{id:int}"] = parameters =>
+            {
+                int id = parameters.id;
+                return repo.Get(id);
+            };
+
             Post["/"] = _ =>
             {
-                var data = this.Bind<List<Data>>(); //Nancy doesn't bind to List<T> located 3 levels deep on an object
-                
-                //This doesn't compile as Writedocument properties are private set
-                var doc = new WriteDocument();
-                doc.Template = new Template();
-                doc.Template.Data = data;
+                var data = this.Bind<List<Data>>(); 
+
+                var doc = new WriteDocument(){ Template = new Template(){ Data = data } };
                    
                 var friend = friendReader.Read(doc);
+                
                 var id = repo.Add(friend);
-                this.Context.Response.Headers.Add("Location", "http://mydomain.com/friends/" + id);
-                return HttpStatusCode.Created;
-             
+
+                return Negotiate.WithHeader("Location", "http://mydomain.com/friends/" + id).WithStatusCode(HttpStatusCode.Created);
             };
         }
     }

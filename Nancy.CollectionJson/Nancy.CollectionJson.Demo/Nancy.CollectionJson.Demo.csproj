@@ -34,23 +34,23 @@
     <Reference Include="Nancy.Hosting.Self">
       <HintPath>..\packages\Nancy.Hosting.Self.0.23.2\lib\net40\Nancy.Hosting.Self.dll</HintPath>
     </Reference>
-    <Reference Include="CollectionJson">
-      <HintPath>..\packages\CollectionJson.0.7.1\lib\portable-net40+sl5+win8+wp8+monotouch+monoandroid\CollectionJson.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="CollectionJson">
+      <HintPath>..\packages\CollectionJson.0.7.3\lib\portable-net40+sl50+win+wp80\CollectionJson.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HomeModule.cs" />
     <Compile Include="Infrastructure\FriendDocumentReader.cs" />
-    <Compile Include="Infrastructure\FriendDocumentWriter.cs" />
     <Compile Include="Models\FakeFriendRepository.cs" />
     <Compile Include="Models\Friend.cs" />
     <Compile Include="Models\IFriendRepository.cs" />
     <Compile Include="Models\TemplateExtensions.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Infrastructure\FriendLinkGenerator.cs" />
+    <Compile Include="Infrastructure\FriendsDocumentWriter.cs" />
+    <Compile Include="Infrastructure\FriendsLinkGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
