@@ -12,11 +12,11 @@ namespace Nancy.CollectionJson
 
         private readonly ISerializer serializer;
 
-        ICollectionJsonDocumentWriterFactory writerFactory;
+        private readonly IEnumerable<ILinkGenerator> linkGenerators;
 
-        public CollectionJsonResponseProcessor(IEnumerable<ISerializer> serializers, ICollectionJsonDocumentWriterFactory writerFactory)
+        public CollectionJsonResponseProcessor(IEnumerable<ISerializer> serializers, IEnumerable<ILinkGenerator> linkGenerators)
         {
-            this.writerFactory = writerFactory;
+            this.linkGenerators = linkGenerators;
             this.serializer = serializers.FirstOrDefault(x => x.CanSerialize("application/json"));
         }
 
@@ -49,7 +49,7 @@ namespace Nancy.CollectionJson
 
         public Response Process(MediaRange requestedMediaRange, dynamic model, NancyContext context)
         {
-            return new CollectionJsonResponse(model, this.serializer, this.writerFactory, context);
+            return new CollectionJsonResponse(model, this.serializer, this.linkGenerators, context);
         }
 
         public IEnumerable<Tuple<string, MediaRange>> ExtensionMappings

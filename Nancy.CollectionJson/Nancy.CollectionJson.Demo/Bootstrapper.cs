@@ -10,11 +10,15 @@ namespace Nancy.CollectionJson.Demo
         protected override void ConfigureApplicationContainer(Nancy.TinyIoc.TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
+
+            container.RegisterMultiple<ILinkGenerator>(new[]{ typeof(FriendLinkGenerator) });
         }
 
         protected override void ConfigureRequestContainer(Nancy.TinyIoc.TinyIoCContainer container, NancyContext context)
         {
             base.ConfigureRequestContainer(container, context);
+
+
         }
     }
 }

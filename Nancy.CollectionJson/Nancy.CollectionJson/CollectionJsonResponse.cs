@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Nancy.Json;
+using System.Collections.Generic;
 
 namespace Nancy.CollectionJson
 {
@@ -8,11 +9,11 @@ namespace Nancy.CollectionJson
     {
         private readonly ISerializer serializer;
 
-        private readonly ICollectionJsonDocumentWriterFactory writerfactory;
-
         private readonly NancyContext context;
 
-        public CollectionJsonResponse(object model, ISerializer serializer, ICollectionJsonDocumentWriterFactory writerfactory, NancyContext context)
+        private readonly IEnumerable<ILinkGenerator> linkGenerators;
+
+        public CollectionJsonResponse(object model, ISerializer serializer, IEnumerable<ILinkGenerator> linkGenerators, NancyContext context)
         {
             this.context = context;
             if (serializer == null)
@@ -20,8 +21,8 @@ namespace Nancy.CollectionJson
                 throw new InvalidOperationException("JSON Serializer not set");
             }
 
+            this.linkGenerators = linkGenerators;
             this.serializer = serializer;
-            this.writerfactory = writerfactory;
             this.Contents = model == null ? NoBody : GetCollectionJsonContents(model);
             this.ContentType = "application/vnd.collection+json"; 
             this.StatusCode = HttpStatusCode.OK;
@@ -48,7 +49,14 @@ namespace Nancy.CollectionJson
             var viewmodel = new CollectionJsonViewModelThatIsntAViewModel();
             viewmodel.Model = model;
 
-            viewmodel.Links = writerfactory.Get(model, this.context);
+            foreach (var item in this.linkGenerators)
+            {
+                if (item.CanHandle(model.GetType()))
+                {
+                    viewmodel.Links = item.Handle(model, this.context);
+
+                }
+            }
 
             return stream => serializer.Serialize(DefaultContentType, viewmodel, stream);
         }

@@ -50,7 +50,7 @@
     <Compile Include="Models\IFriendRepository.cs" />
     <Compile Include="Models\TemplateExtensions.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Infrastructure\NancyCollectionJsonDocumentWriterFactory.cs" />
+    <Compile Include="Infrastructure\FriendLinkGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
