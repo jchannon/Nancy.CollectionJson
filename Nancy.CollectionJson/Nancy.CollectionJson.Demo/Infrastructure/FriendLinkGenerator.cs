@@ -8,7 +8,6 @@ using Nancy.CollectionJson.Demo.Models;
 
 namespace Nancy.CollectionJson.Demo.Infrastructure
 {
-
     public class FriendLinkGenerator : ILinkGenerator
     {
         public bool CanHandle(Type model)

@@ -12,8 +12,7 @@ namespace Nancy.CollectionJson.Demo.Infrastructure
 
         public FriendDocumentWriter(NancyContext ctx)
         {
-            if (ctx.Request.Url.HostName != "")
-                _requestUri = ctx.Request.Url;
+            _requestUri = ctx.Request.Url;
         }
 
         public IReadDocument Write(IEnumerable<Friend> friends)
