@@ -10,6 +10,7 @@ namespace Nancy.CollectionJson.Demo
     public class HomeModule : NancyModule
     {
         public HomeModule(IFriendRepository repo, ICollectionJsonDocumentReader<Friend> friendReader)
+            : base("/friends")
         {           
             Get["/search/{name}"] = parameters =>
             {
@@ -39,7 +40,7 @@ namespace Nancy.CollectionJson.Demo
                 
                 var id = repo.Add(friend);
 
-                return Negotiate.WithHeader("Location", "http://mydomain.com/friends/" + id).WithStatusCode(HttpStatusCode.Created);
+                return Negotiate.WithHeader("Location", this.Request.Url.ToString() + "/" + id).WithStatusCode(HttpStatusCode.Created);
             };
 
             Put["/{id:int}"] = parameters =>
