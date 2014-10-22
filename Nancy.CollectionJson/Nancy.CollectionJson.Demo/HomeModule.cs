@@ -41,6 +41,29 @@ namespace Nancy.CollectionJson.Demo
 
                 return Negotiate.WithHeader("Location", "http://mydomain.com/friends/" + id).WithStatusCode(HttpStatusCode.Created);
             };
+
+            Put["/{id:int}"] = parameters =>
+            {
+                int id = parameters.id;
+
+                var data = this.Bind<List<Data>>(); 
+
+                var doc = new WriteDocument(){ Template = new Template(){ Data = data } };
+
+                var friend = friendReader.Read(doc);
+                friend.Id = id;
+                repo.Update(friend);
+
+                return friend;
+            };
+
+            Delete["/{id:int}"] = parameters =>
+            {
+                int id = parameters.id;
+                repo.Remove(id);
+
+                return HttpStatusCode.NoContent;
+            };
         }
     }
 }
