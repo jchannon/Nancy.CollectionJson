@@ -14,7 +14,7 @@ namespace Nancy.CollectionJson.Demo
         {           
             Get["/search/{name}"] = parameters =>
             {
-                var friends = repo.GetAll().Where(f => f.FullName.IndexOf(parameters.name, StringComparison.OrdinalIgnoreCase) > -1);
+                var friends = repo.Search(parameters.name);
                 return friends;
             };
 

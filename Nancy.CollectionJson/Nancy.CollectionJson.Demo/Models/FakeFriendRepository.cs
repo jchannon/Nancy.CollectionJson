@@ -48,5 +48,10 @@ namespace Nancy.CollectionJson.Demo.Models
             existingFriend.Email = friend.Email;
             existingFriend.FullName = friend.FullName;
         }
+
+        public IEnumerable<Friend> Search(string name)
+        {
+            return friends.Where(f => f.FullName.IndexOf(name, StringComparison.OrdinalIgnoreCase) > -1);
+        }
     }
 }

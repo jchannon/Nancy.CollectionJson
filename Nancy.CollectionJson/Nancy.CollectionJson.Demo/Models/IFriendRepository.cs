@@ -13,5 +13,7 @@ namespace Nancy.CollectionJson.Demo.Models
         void Update(Friend friend);
 
         void Remove(int id);
+
+        IEnumerable<Friend> Search(string name);
     }
 }
