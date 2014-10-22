@@ -40,7 +40,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CollectionJsonResponseProcessor.cs" />
     <Compile Include="CollectionJsonResponse.cs" />
-    <Compile Include="CollectionJsonViewModelThatIsntAViewModel.cs" />
     <Compile Include="ILinkGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

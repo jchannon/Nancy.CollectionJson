@@ -46,14 +46,12 @@ namespace Nancy.CollectionJson
 
         private Action<Stream> GetCollectionJsonContents(object model)
         {
-            var viewmodel = new CollectionJsonViewModelThatIsntAViewModel();
-            viewmodel.Model = model;
-
+            object viewmodel = null;
             foreach (var item in this.linkGenerators)
             {
                 if (item.CanHandle(model.GetType()))
                 {
-                    viewmodel.Links = item.Handle(model, this.context);
+                    viewmodel = item.Handle(model, this.context);
 
                 }
             }
