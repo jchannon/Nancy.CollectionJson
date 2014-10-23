@@ -9,9 +9,10 @@ namespace Nancy.CollectionJson.Demo
 {
     public class HomeModule : NancyModule
     {
+
         public HomeModule(IFriendRepository repo, ICollectionJsonDocumentReader<Friend> friendReader)
             : base("/friends")
-        {           
+        {
             Get["/search/{name}"] = parameters =>
             {
                 var friends = repo.Search(parameters.name);

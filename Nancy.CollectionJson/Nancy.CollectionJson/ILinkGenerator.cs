@@ -7,6 +7,6 @@ namespace Nancy.CollectionJson
     {
         bool CanHandle(Type model);
 
-        Collection Handle(object model, NancyContext context);
+        Collection Handle(object model, Uri uri);
     }
 }

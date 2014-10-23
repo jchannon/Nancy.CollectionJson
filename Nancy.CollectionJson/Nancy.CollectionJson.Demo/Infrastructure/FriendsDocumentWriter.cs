@@ -6,26 +6,19 @@ using Nancy.CollectionJson.Demo.Models;
 
 namespace Nancy.CollectionJson.Demo.Infrastructure
 {
-    public class FriendsDocumentWriter : ICollectionJsonDocumentWriter<Friend>
+    public class FriendsDocumentWriter : CollectionJsonDocumentWriter<Friend>
     {
-        private readonly Uri _requestUri;
-
-        public FriendsDocumentWriter(NancyContext ctx)
-        {
-            _requestUri = ctx.Request.Url;
-        }
-
-        public IReadDocument Write(IEnumerable<Friend> friends)
+        public override IReadDocument Write(IEnumerable<Friend> friends, Uri uri)
         {
             var document = new ReadDocument();
-            var collection = new Collection { Version = "1.0", Href = new Uri(_requestUri, "/friends/") };
+            var collection = new Collection { Version = "1.0", Href = new Uri(uri, "/friends/") };
             document.Collection = collection;
 
-            collection.Links.Add(new Link { Rel = "Feed", Href = new Uri(_requestUri, "/friends/rss") });
+            collection.Links.Add(new Link { Rel = "Feed", Href = new Uri(uri, "/friends/rss") });
 
             foreach (var friend in friends)
             {
-                var item = new Item { Href = new Uri(_requestUri, "/friends/" + friend.Id) };
+                var item = new Item { Href = new Uri(uri, "/friends/" + friend.Id) };
                 item.Extensions().Model = "friend";
 
                 item.Data.Add(new Data { Name = "full-name", Value = friend.FullName, Prompt = "Full Name" });
@@ -36,7 +29,7 @@ namespace Nancy.CollectionJson.Demo.Infrastructure
                 collection.Items.Add(item);
             }
 
-            var query = new Query { Rel = "search", Href = new Uri(_requestUri, "/friends"), Prompt = "Search" };
+            var query = new Query { Rel = "search", Href = new Uri(uri, "/friends"), Prompt = "Search" };
             query.Data.Add(new Data { Name = "name", Prompt = "Value to match against the Full Name" });
             collection.Queries.Add(query);
 
@@ -48,4 +41,6 @@ namespace Nancy.CollectionJson.Demo.Infrastructure
             return document;
         }
     }
+
+     
 }

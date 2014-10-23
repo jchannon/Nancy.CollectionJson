@@ -10,6 +10,13 @@ namespace Nancy.CollectionJson.Demo.Infrastructure
 {
     public class FriendsLinkGenerator : ILinkGenerator
     {
+        private readonly CollectionJsonDocumentWriter<Friend> docWriter;
+
+        public FriendsLinkGenerator(CollectionJsonDocumentWriter<Friend> docWriter)
+        {
+            this.docWriter = docWriter;
+        }
+
         public bool CanHandle(Type model)
         {
             var expectedType = typeof(IEnumerable<Friend>);
@@ -27,19 +34,26 @@ namespace Nancy.CollectionJson.Demo.Infrastructure
             return false;
         }
 
-        public Collection Handle(object model, NancyContext context)
+        public Collection Handle(object model, Uri uri)
         {
-            var doc = new FriendsDocumentWriter(context);
             var modeldata = model as IEnumerable<Friend>;
             if (modeldata == null)
             {
                 var oneFriend = (Friend)model;
-                var ber = doc.Write(oneFriend);
+                var ber = docWriter.Write(oneFriend, uri);
                 return ber.Collection;
             }
 
-            var blah = doc.Write(modeldata);
+            var blah = docWriter.Write(modeldata, uri);
             return blah.Collection;
+        }
+    }
+
+    public static class CollectionJsonDocumentWriterExtensions
+    {
+        public static IReadDocument Write<TItem>(this CollectionJsonDocumentWriter<TItem> writer, TItem item, Uri uri)
+        {
+            return writer.Write(new[] { item }, uri);
         }
     }
 }

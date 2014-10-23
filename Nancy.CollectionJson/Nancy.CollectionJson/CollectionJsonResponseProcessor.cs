@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nancy.Responses.Negotiation;
+using Nancy.Bootstrapper;
+using Nancy.TinyIoc;
 
 namespace Nancy.CollectionJson
 {
+
     public class CollectionJsonResponseProcessor : IResponseProcessor
     {
         private static readonly IEnumerable<Tuple<string, MediaRange>> extensionMappings =
@@ -14,10 +17,14 @@ namespace Nancy.CollectionJson
 
         private readonly IEnumerable<ILinkGenerator> linkGenerators;
 
+
+
         public CollectionJsonResponseProcessor(IEnumerable<ISerializer> serializers, IEnumerable<ILinkGenerator> linkGenerators)
         {
             this.linkGenerators = linkGenerators;
             this.serializer = serializers.FirstOrDefault(x => x.CanSerialize("application/json"));
+
+
         }
 
         public ProcessorMatch CanProcess(MediaRange requestedMediaRange, dynamic model, NancyContext context)

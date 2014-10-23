@@ -2,6 +2,7 @@
 using System.IO;
 using Nancy.Json;
 using System.Collections.Generic;
+using Nancy.TinyIoc;
 
 namespace Nancy.CollectionJson
 {
@@ -26,7 +27,6 @@ namespace Nancy.CollectionJson
             this.Contents = model == null ? NoBody : GetCollectionJsonContents(model);
             this.ContentType = "application/vnd.collection+json"; 
             this.StatusCode = HttpStatusCode.OK;
-
         }
 
         private static string DefaultContentType
@@ -51,8 +51,8 @@ namespace Nancy.CollectionJson
             {
                 if (item.CanHandle(model.GetType()))
                 {
-                    viewmodel = item.Handle(model, this.context);
-
+                    viewmodel = item.Handle(model, this.context.Request.Url);
+                    break;
                 }
             }
 

@@ -2,6 +2,9 @@
 using Nancy.CollectionJson.Demo.Models;
 using Nancy.CollectionJson.Demo.Infrastructure;
 using CollectionJson;
+using Nancy.Responses.Negotiation;
+using System.Collections.Generic;
+using Nancy.TinyIoc;
 
 namespace Nancy.CollectionJson.Demo
 {
@@ -18,15 +21,18 @@ namespace Nancy.CollectionJson.Demo
         {
             base.ConfigureApplicationContainer(container);
 
-            container.RegisterMultiple<ILinkGenerator>(new[]{ typeof(FriendsLinkGenerator) });
             container.Register<ICollectionJsonDocumentReader<Friend>, FriendDocumentReader>();
-            container.Register<IWriteDocument,WriteDocument>();
+
+            container.Register<CollectionJsonDocumentWriter<Friend>, FriendsDocumentWriter>();
+
+            container.RegisterMultiple<ILinkGenerator>(new[]{ typeof(FriendsLinkGenerator) });
         }
+
+
 
         protected override void ConfigureRequestContainer(Nancy.TinyIoc.TinyIoCContainer container, NancyContext context)
         {
             base.ConfigureRequestContainer(container, context);
-
 
         }
     }
