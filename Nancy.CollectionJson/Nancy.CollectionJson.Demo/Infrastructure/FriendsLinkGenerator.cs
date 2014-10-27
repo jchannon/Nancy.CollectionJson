@@ -48,12 +48,4 @@ namespace Nancy.CollectionJson.Demo.Infrastructure
             return blah.Collection;
         }
     }
-
-    public static class CollectionJsonDocumentWriterExtensions
-    {
-        public static IReadDocument Write<TItem>(this CollectionJsonDocumentWriter<TItem> writer, TItem item, Uri uri)
-        {
-            return writer.Write(new[] { item }, uri);
-        }
-    }
 }

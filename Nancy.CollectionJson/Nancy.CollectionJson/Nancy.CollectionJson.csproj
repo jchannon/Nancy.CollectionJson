@@ -33,7 +33,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="CollectionJson">
-      <HintPath>..\packages\CollectionJson.0.7.4\lib\portable-net40+sl50+win+wp80\CollectionJson.dll</HintPath>
+      <HintPath>..\packages\CollectionJson.0.7.6\lib\portable-net40+sl50+win+wpa81+wp80\CollectionJson.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
