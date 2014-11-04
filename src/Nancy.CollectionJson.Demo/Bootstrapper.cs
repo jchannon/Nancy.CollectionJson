@@ -21,7 +21,7 @@ namespace Nancy.CollectionJson.Demo
         {
             base.ConfigureApplicationContainer(container);
 
-            container.Register<ICollectionJsonDocumentReader<Friend>, FriendDocumentReader>();
+            container.Register<ICollectionJsonDocumentReader<Friend>, FriendsDocumentReader>();
 
             container.Register<CollectionJsonDocumentWriter<Friend>, FriendsDocumentWriter>();
 
