@@ -4,7 +4,7 @@ using Nancy.CollectionJson.Demo.Models;
 
 namespace Nancy.CollectionJson.Demo.Infrastructure
 {
-    public class FriendDocumentReader : ICollectionJsonDocumentReader<Friend>
+    public class FriendsDocumentReader : ICollectionJsonDocumentReader<Friend>
     {
         public Friend Read(IWriteDocument document)
         {

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Nancy.CollectionJson</id>
+        <version>0.1.0</version>
+        <title>Nancy.CollectionJson</title>
+        <authors>Jonathan Channon</authors>
+        <owners>Jonathan Channon</owners>
+        <licenseUrl>https://github.com/jchannon/Nancy.CollectionJson/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/jchannon/Nancy.CollectionJson</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A library to extend your response payload with the Collection+Json hypermedia media type</description>
+        <summary>A library to extend your response payload with the Collection+Json hypermedia media type</summary>
+        <releaseNotes>v1.0.0 - Initial Release</releaseNotes>
+        <tags>hypermedia, rest, collectionjson, nancyfx, nancy</tags>
+        <dependencies>
+            <dependency id="Nancy" version="0.23.2" />
+            <dependency id="CollectionJson" version="0.7.6" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="src\Nancy.CollectionJson\bin\Release\Nancy.CollectionJson.dll" target="lib\net40\Nancy.CollectionJson.dll" />
+    </files>
+</package>

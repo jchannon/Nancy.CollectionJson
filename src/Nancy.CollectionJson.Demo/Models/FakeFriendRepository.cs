@@ -12,7 +12,7 @@ namespace Nancy.CollectionJson.Demo.Models
         static FakeFriendRepository()
         {
             friends.Add(new Friend { Id = id++, FullName = "John Doe", Email = "jdoe@example.org", Blog = new Uri("http://examples.org/blogs/jdoe"), Avatar = new Uri("http://examples.org/images/jode") });
-            friends.Add(new Friend { Id = id++, FullName = "Michael Smith", Email = "msmith@example.org", Blog = new Uri("http://examples.org/blogs/msmith"), Avatar = new Uri("http://examples.org/images/msmith") });
+            friends.Add(new Friend { Id = id++, FullName = "Michael Smith", Email = "msmith@example.org", Avatar = new Uri("http://examples.org/images/msmith") });
             friends.Add(new Friend { Id = id++, FullName = "Robby Williams", Email = "rwilliams@example.org", Blog = new Uri("http://examples.org/blogs/rwilliams"), Avatar = new Uri("http://examples.org/images/rwilliams") });
         }
 

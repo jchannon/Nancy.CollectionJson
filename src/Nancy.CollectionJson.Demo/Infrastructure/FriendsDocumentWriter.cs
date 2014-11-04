@@ -24,7 +24,10 @@ namespace Nancy.CollectionJson.Demo.Infrastructure
                 item.Data.Add(new Data { Name = "full-name", Value = friend.FullName, Prompt = "Full Name" });
                 item.Data.Add(new Data { Name = "email", Value = friend.Email, Prompt = "Email" });
                 item.Data.Add(new Data{ Name = "short-name", Value = friend.ShortName, Prompt = "Short Name" });
-                item.Links.Add(new Link { Rel = "blog", Href = friend.Blog, Prompt = "Blog" });
+                if (friend.Blog != null)
+                {
+                    item.Links.Add(new Link { Rel = "blog", Href = friend.Blog, Prompt = "Blog" });
+                }
                 item.Links.Add(new Link { Rel = "avatar", Href = friend.Avatar, Prompt = "Avatar", Render = "Image" });
                 collection.Items.Add(item);
             }
