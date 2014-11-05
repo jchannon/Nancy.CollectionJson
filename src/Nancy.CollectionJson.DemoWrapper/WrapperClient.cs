@@ -35,18 +35,18 @@ namespace Nancy.CollectionJson.DemoWrapper
         }
 
 
-        public string ListHypermedia(string acceptHeader = "application/vnd.collection+json")
+        public U ListHypermedia(string acceptHeader = "application/vnd.collection+json")
         {
             //the url shouldnt be hardcoded but not sure how to resolve this
             var req = new RestRequest("/friends/", Method.GET);
 
             req.AddHeader("Accept", acceptHeader);
 
-            var res = client.Execute(req);
+            var res = client.Execute<U>(req);
 
 
 
-            return res.Content;
+            return res.Data;
         }
     }
 

@@ -10,7 +10,7 @@ namespace Nancy.CollectionJson.DemoWrapper
 
         List<T> List(string acceptHeader = "application/json");
 
-        string ListHypermedia(string acceptHeader = "application/vnd.collection+json");
+        U ListHypermedia(string acceptHeader = "application/vnd.collection+json");
     }
 
 

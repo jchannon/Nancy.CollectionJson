@@ -20,14 +20,14 @@ namespace Nancy.CollectionJson.DemoClient
 //            Console.WriteLine(data.ToJson());
 //            Console.WriteLine("hyper");
             var hyperdata = client.ListHypermedia();
-//
-//            Console.WriteLine("bef");
-//            Console.WriteLine(hyperdata.Dump());
-//            Console.WriteLine("aft");
+
+            Console.WriteLine("bef");
+            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(hyperdata));
+            Console.WriteLine("aft");
 
 
             //  var x = hyperdata.FromJson<Collection>();
-            var ff = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection>(hyperdata);
+          //  var ff = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection>(hyperdata);
 
             Console.ReadKey();
         }
