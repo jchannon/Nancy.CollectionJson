@@ -1,10 +1,12 @@
-﻿using System;
-using Nancy.CollectionJson.Demo.Models;
-using Nancy.CollectionJson.Demo.Infrastructure;
+﻿using System.Collections.Generic;
 using CollectionJson;
+using Nancy.Bootstrapper;
+using Nancy.CollectionJson.Demo.Infrastructure;
+using Nancy.CollectionJson.Demo.Models;
 using Nancy.Responses.Negotiation;
-using System.Collections.Generic;
-using Nancy.TinyIoc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 
 namespace Nancy.CollectionJson.Demo
 {
@@ -26,8 +28,15 @@ namespace Nancy.CollectionJson.Demo
             container.Register<CollectionJsonDocumentWriter<Friend>, FriendsDocumentWriter>();
 
             container.RegisterMultiple<ILinkGenerator>(new[]{ typeof(FriendsLinkGenerator) });
+
+            container.Register<JsonSerializer, CustomJsonSerializer>();
         }
 
+
+        protected override NancyInternalConfiguration InternalConfiguration
+        {
+            get { return NancyInternalConfiguration.WithOverrides(x=>x.ResponseProcessors.Remove(typeof(ViewProcessor))); }
+        }
 
 
         protected override void ConfigureRequestContainer(Nancy.TinyIoc.TinyIoCContainer container, NancyContext context)
@@ -36,5 +45,16 @@ namespace Nancy.CollectionJson.Demo
 
         }
     }
+
+    public sealed class CustomJsonSerializer : JsonSerializer
+    {
+        public CustomJsonSerializer()
+        {
+            this.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            this.Formatting = Formatting.Indented;
+            this.NullValueHandling = NullValueHandling.Ignore;
+        }
+    }
+
 }
 

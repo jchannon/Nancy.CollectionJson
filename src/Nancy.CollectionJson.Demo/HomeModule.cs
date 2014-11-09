@@ -1,72 +1,48 @@
-﻿using System;
-using Nancy.CollectionJson.Demo.Models;
-using CollectionJson;
-using System.Linq;
-using System.Collections.Generic;
-using Nancy.ModelBinding;
+﻿
+using System;
+using System.Net.Http;
+using Tavis;
+using Tavis.Home;
+using Tavis.IANA;
 
 namespace Nancy.CollectionJson.Demo
 {
     public class HomeModule : NancyModule
     {
-
-        public HomeModule(IFriendRepository repo, ICollectionJsonDocumentReader<Friend> friendReader)
-            : base("/friends")
+        public HomeModule()
         {
-            Get["/search/{name}"] = parameters =>
-            {
-                var friends = repo.Search(parameters.name);
-                return friends;
-            };
-
             Get["/"] = _ =>
             {
-                var friends = repo.GetAll(); 
-                return friends;
-            };
+                var home = new HomeDocument();
 
-            Get["/{id:int}"] = parameters =>
-            {
-                int id = parameters.id;
-                return repo.Get(id);
-            };
+                //home.AddResource<AboutLink>(l =>
+                //{
+                //    l.Target = new Uri("about", UriKind.Relative);
+                //    l.AddHint<AllowHint>(h => h.AddMethod(HttpMethod.Get));
+                //    l.AddHint<FormatsHint>(h => h.AddMediaType("application/json"));
+                //    l.AddHint<AcceptPostHint>(h => h.AddMediaType("application/vnd.tavis.foo+json"));
+                //    l.AddHint<AcceptPreferHint>(h => h.AddPreference("handling"));
+                //});
 
-            Post["/"] = _ =>
-            {
-                var data = this.Bind<List<Data>>(); 
+                //home.AddResource<Link>(l =>
+                //{
+                //    l.Relation = "http://localhost:9200";
+                //    l.Target = new Uri("/", UriKind.Relative);
+                //});
 
-                var doc = new WriteDocument(){ Template = new Template(){ Data = data } };
-                   
-                var friend = friendReader.Read(doc);
+                var link = new Link() { Relation = "http://localhost:9200/profile#", Target = new Uri("/issue/{id}", UriKind.Relative) };
+                link.AddHint<AllowHint>(h => h.AddMethod(HttpMethod.Get));
+                link.AddHint<FormatsHint>(h =>
+                {
+                    h.AddMediaType("application/json");
+                    h.AddMediaType("application/vnd.issue+json");
+                });
+                home.AddResource((Link)link);
+
+                return Negotiate.WithModel(home).WithContentType("application/home+json");
+
                 
-                var id = repo.Add(friend);
-
-                return Negotiate.WithHeader("Location", this.Request.Url.ToString() + "/" + id).WithStatusCode(HttpStatusCode.Created);
-            };
-
-            Put["/{id:int}"] = parameters =>
-            {
-                int id = parameters.id;
-
-                var data = this.Bind<List<Data>>(); 
-
-                var doc = new WriteDocument(){ Template = new Template(){ Data = data } };
-
-                var friend = friendReader.Read(doc);
-                friend.Id = id;
-                repo.Update(friend);
-
-                return friend;
-            };
-
-            Delete["/{id:int}"] = parameters =>
-            {
-                int id = parameters.id;
-                repo.Remove(id);
-
-                return HttpStatusCode.NoContent;
             };
         }
     }
 }
-

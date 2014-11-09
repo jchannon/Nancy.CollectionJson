@@ -4,13 +4,15 @@ using RestSharp;
 
 namespace Nancy.CollectionJson.DemoWrapper
 {
-    public interface IWrapperClient<T,U> where T:class, new() where U:class, new()
+    public interface IWrapperClient<T,THyperMediaModel> where T:class, new() where THyperMediaModel:class, new()
     {
         T Get(int id);
 
         List<T> List(string acceptHeader = "application/json");
 
-        U ListHypermedia(string acceptHeader = "application/vnd.collection+json");
+        THyperMediaModel ListHypermedia(string acceptHeader = "application/vnd.collection+json");
+
+        THyperMediaModel GetHypermedia(int id, string acceptHeader = "application/vnd.collection+json");
     }
 
 
