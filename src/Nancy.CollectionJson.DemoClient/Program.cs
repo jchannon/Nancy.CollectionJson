@@ -12,6 +12,7 @@ namespace Nancy.CollectionJson.DemoClient
         public static void Main(string[] args)
         {
             Console.WriteLine("Connecting to server via wrapper...");
+            //Let server fire up
             Thread.Sleep(2500);
 
             //Friend should be in separate viewmodels library so server and client can both use it

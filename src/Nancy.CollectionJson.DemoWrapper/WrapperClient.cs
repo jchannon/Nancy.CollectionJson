@@ -4,9 +4,7 @@ using System.IO;
 using System.Net.Mime;
 using RestSharp;
 using Nancy.CollectionJson.Demo.Models;
-using RestSharp.Deserializers;
 using RestSharp.Serializers;
-using ServiceStack.Text;
 
 namespace Nancy.CollectionJson.DemoWrapper
 {
@@ -70,18 +68,6 @@ namespace Nancy.CollectionJson.DemoWrapper
             var res = client.Execute<THyperMediaModel>(req);
             return res.Data;
         }
-    }
-
-    public class RestSharpServiceStackSerializer : IDeserializer
-    {
-        public T Deserialize<T>(IRestResponse response)
-        {
-            return response.Content.FromJson<T>();
-        }
-
-        public string RootElement { get; set; }
-        public string Namespace { get; set; }
-        public string DateFormat { get; set; }
     }
 }
 

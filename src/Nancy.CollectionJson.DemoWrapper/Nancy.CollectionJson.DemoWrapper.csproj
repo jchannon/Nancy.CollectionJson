@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestSharpServiceStackSerializer.cs" />
     <Compile Include="WrapperClient.cs" />
     <Compile Include="IWrapperClient.cs" />
   </ItemGroup>

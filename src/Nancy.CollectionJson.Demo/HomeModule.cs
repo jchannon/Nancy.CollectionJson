@@ -9,40 +9,91 @@ namespace Nancy.CollectionJson.Demo
 {
     public class HomeModule : NancyModule
     {
+        public const string Root = "http://localhost:9200";
         public HomeModule()
         {
             Get["/"] = _ =>
             {
                 var home = new HomeDocument();
 
-                //home.AddResource<AboutLink>(l =>
-                //{
-                //    l.Target = new Uri("about", UriKind.Relative);
-                //    l.AddHint<AllowHint>(h => h.AddMethod(HttpMethod.Get));
-                //    l.AddHint<FormatsHint>(h => h.AddMediaType("application/json"));
-                //    l.AddHint<AcceptPostHint>(h => h.AddMediaType("application/vnd.tavis.foo+json"));
-                //    l.AddHint<AcceptPreferHint>(h => h.AddPreference("handling"));
-                //});
-
-                //home.AddResource<Link>(l =>
-                //{
-                //    l.Relation = "http://localhost:9200";
-                //    l.Target = new Uri("/", UriKind.Relative);
-                //});
-
-                var link = new Link() { Relation = "http://localhost:9200/profile#", Target = new Uri("/issue/{id}", UriKind.Relative) };
-                link.AddHint<AllowHint>(h => h.AddMethod(HttpMethod.Get));
-                link.AddHint<FormatsHint>(h =>
+                var allfriendslink = new Link()
                 {
-                    h.AddMediaType("application/json");
-                    h.AddMediaType("application/vnd.issue+json");
+                    Relation = Root + "/friends",
+                    Target = new Uri("/friends", UriKind.Relative)
+                };
+
+                allfriendslink.AddHint<AllowHint>(h =>
+                {
+                    h.AddMethod(HttpMethod.Get);
+                    h.AddMethod(HttpMethod.Post);
                 });
-                home.AddResource((Link)link);
 
-                return Negotiate.WithModel(home).WithContentType("application/home+json");
+                AddMediaTypes(allfriendslink);
 
-                
+                home.AddResource((Link)allfriendslink);
+
+                var friendLink = new Link()
+                {
+                    Relation = Root + "/friend",
+                    Target = new Uri("/friends/{id}", UriKind.Relative)
+                };
+
+                friendLink.AddHint<AllowHint>(h =>
+                {
+                    h.AddMethod(HttpMethod.Get);
+                    h.AddMethod(HttpMethod.Put);
+                    h.AddMethod(HttpMethod.Delete);
+                });
+
+                AddMediaTypes(friendLink);
+
+                home.AddResource(friendLink);
+
+                var searchLink = new Link()
+                {
+                    Relation = Root + "/search",
+                    Target = new Uri("/friends/search/{name}", UriKind.Relative)
+                };
+
+                searchLink.AddHint<AllowHint>(h =>
+                {
+                    h.AddMethod(HttpMethod.Get);
+                });
+
+                AddMediaTypes(searchLink);
+
+                home.AddResource(searchLink);
+
+                return Response.AsHomeDocument(home);
             };
+        }
+
+        private void AddMediaTypes(Link link)
+        {
+            link.AddHint<FormatsHint>(h =>
+            {
+                h.AddMediaType("application/json");
+                h.AddMediaType("application/xml");
+                h.AddMediaType("application/vnd.issue+json");
+            });
+        }
+    }
+
+    public class TavisHomeResponse : Response
+    {
+        public TavisHomeResponse(HomeDocument homeDocument)
+        {
+            this.ContentType = "application/home+json";
+
+            this.Contents = stream => homeDocument.Save(stream);
+        }
+    }
+
+    public static class NancyResponseExtensions
+    {
+        public static Response AsHomeDocument(this IResponseFormatter formatter, HomeDocument homeDocument)
+        {
+            return new TavisHomeResponse(homeDocument);
         }
     }
 }

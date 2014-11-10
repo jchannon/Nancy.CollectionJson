@@ -12,12 +12,6 @@ namespace Nancy.CollectionJson.Demo
         public FriendsModule(IFriendRepository repo, ICollectionJsonDocumentReader<Friend> friendReader)
             : base("/friends")
         {
-            Get["/search/{name}"] = parameters =>
-            {
-                var friends = repo.Search(parameters.name);
-                return friends;
-            };
-
             Get["/"] = _ =>
             {
                 var friends = repo.GetAll(); 
@@ -64,6 +58,12 @@ namespace Nancy.CollectionJson.Demo
                 repo.Remove(id);
 
                 return HttpStatusCode.NoContent;
+            };
+
+            Get["/search/{name}"] = parameters =>
+            {
+                var friends = repo.Search(parameters.name);
+                return friends;
             };
         }
     }
