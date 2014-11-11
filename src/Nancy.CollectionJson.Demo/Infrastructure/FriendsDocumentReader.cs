@@ -1,6 +1,7 @@
 ﻿using CollectionJson;
 using System;
 using Nancy.CollectionJson.Demo.Models;
+using Nancy.CollectionJson.Demo.ViewModels;
 
 namespace Nancy.CollectionJson.Demo.Infrastructure
 {

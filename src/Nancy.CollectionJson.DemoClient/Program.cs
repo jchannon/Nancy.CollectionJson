@@ -1,9 +1,9 @@
 ﻿using System;
+using Nancy.CollectionJson.Demo.ViewModels;
 using Nancy.CollectionJson.DemoWrapper;
-using Nancy.CollectionJson.Demo.Models;
 using System.Threading;
 using CollectionJson;
-using ServiceStack.Text;
+
 
 namespace Nancy.CollectionJson.DemoClient
 {
@@ -11,17 +11,18 @@ namespace Nancy.CollectionJson.DemoClient
     {
         public static void Main(string[] args)
         {
+            //http://codereview.stackexchange.com/questions/16493
             Console.WriteLine("Connecting to server via wrapper...");
             //Let server fire up
-            Thread.Sleep(2500);
+            Thread.Sleep(1500);
 
             //Friend should be in separate viewmodels library so server and client can both use it
-            var client = new WrapperClient<Friend, Collection>();
+            var client = new WrapperClient<Friend, Collection>(new LinkLookup(new HomeDocProvider()));
 
             var friendList = client.List();
-            Console.WriteLine("We have " + friendList.Count + " friends!");
+            //Console.WriteLine("We have " + friendList.Count + " friends!");
 
-            var friend = client.GetHypermedia(1);
+            //var friend = client.GetHypermedia(1);
 
             //friend. = "billynomates@gmail.com";
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Nancy;
 using Nancy.CollectionJson.Demo.Models;
+using Nancy.CollectionJson.Demo.ViewModels;
 
 namespace Nancy.CollectionJson.Demo.Infrastructure
 {

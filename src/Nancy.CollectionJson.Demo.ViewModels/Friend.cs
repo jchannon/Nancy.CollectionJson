@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nancy.CollectionJson.Demo.Models
+namespace Nancy.CollectionJson.Demo.ViewModels
 {
     public class Friend
     {

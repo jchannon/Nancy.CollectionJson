@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Nancy.CollectionJson.Demo.ViewModels;
 
 namespace Nancy.CollectionJson.Demo.Models
 {

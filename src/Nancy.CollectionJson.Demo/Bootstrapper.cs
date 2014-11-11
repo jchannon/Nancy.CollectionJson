@@ -3,6 +3,7 @@ using CollectionJson;
 using Nancy.Bootstrapper;
 using Nancy.CollectionJson.Demo.Infrastructure;
 using Nancy.CollectionJson.Demo.Models;
+using Nancy.CollectionJson.Demo.ViewModels;
 using Nancy.Responses.Negotiation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

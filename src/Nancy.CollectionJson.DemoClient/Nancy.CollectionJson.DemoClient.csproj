@@ -28,10 +28,6 @@
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ServiceStack.Text, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ServiceStack.Text.3.9.71\lib\net35\ServiceStack.Text.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="CollectionJson">
       <HintPath>..\packages\CollectionJson.0.7.6\lib\portable-net40+sl50+win+wpa81+wp80\CollectionJson.dll</HintPath>
@@ -43,17 +39,19 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\Nancy.CollectionJson.Demo.ViewModels\Nancy.CollectionJson.Demo.ViewModels.csproj">
+      <Project>{8DFD8201-0525-4DE2-BA86-5BCA434D83FC}</Project>
+      <Name>Nancy.CollectionJson.Demo.ViewModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nancy.CollectionJson.DemoWrapper\Nancy.CollectionJson.DemoWrapper.csproj">
       <Project>{8C648A06-EB73-4D9C-902A-394FB2AB2F6B}</Project>
       <Name>Nancy.CollectionJson.DemoWrapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Nancy.CollectionJson.Demo\Nancy.CollectionJson.Demo.csproj">
-      <Project>{7B4E5A83-2248-4D25-B5CB-A3FE5299E15D}</Project>
-      <Name>Nancy.CollectionJson.Demo</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
 </Project>

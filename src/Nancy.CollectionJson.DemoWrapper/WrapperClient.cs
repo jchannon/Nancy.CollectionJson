@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Net.Mime;
 using RestSharp;
-using Nancy.CollectionJson.Demo.Models;
 using RestSharp.Serializers;
 
 namespace Nancy.CollectionJson.DemoWrapper
 {
-    public class WrapperClient<TModel,THyperMediaModel> : IWrapperClient<TModel,THyperMediaModel> where TModel:class, new() where THyperMediaModel:class, new()
+    public class WrapperClient<TModel, THyperMediaModel> : IWrapperClient<TModel, THyperMediaModel>
+        where TModel : class, new()
+        where THyperMediaModel : class, new()
     {
+        private readonly ILinkLookup linkLookup;
         private RestClient client;
 
-        public WrapperClient()
+        public WrapperClient(ILinkLookup linkLookup)
         {
+            this.linkLookup = linkLookup;
+
             client = new RestClient("http://localhost:9200");
             client.AddHandler("application/vnd.collection+json", new RestSharpServiceStackSerializer());
         }
@@ -30,10 +34,11 @@ namespace Nancy.CollectionJson.DemoWrapper
         public List<TModel> List(string acceptHeader = "application/json")
         {
             //the url shouldnt be hardcoded but not sure how to resolve this
-            var req = new RestRequest("/friends/", Method.GET);
-           
+            var link = this.linkLookup.GetLink("http://localhost:9200/friends");
+            var req = new RestRequest(link, Method.GET);
+
             req.AddHeader("Accept", acceptHeader);
-            
+
             var res = client.Execute<List<TModel>>(req);
             return res.Data;
         }

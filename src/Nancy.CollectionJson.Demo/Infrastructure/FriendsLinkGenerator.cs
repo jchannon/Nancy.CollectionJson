@@ -1,4 +1,5 @@
 using System;
+using Nancy.CollectionJson.Demo.ViewModels;
 using Nancy.Responses.Negotiation;
 using System.Collections.Generic;
 using System.Linq;
