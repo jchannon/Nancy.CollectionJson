@@ -18,8 +18,8 @@ namespace Nancy.CollectionJson.DemoWrapper
         {
             this.linkLookup = linkLookup;
 
-            client = new RestClient("http://localhost:9200");
-            client.AddHandler("application/vnd.collection+json", new RestSharpServiceStackSerializer());
+            //client = new RestClient("http://localhost:9200");
+           // client.AddHandler("application/vnd.collection+json", new RestSharpServiceStackSerializer());
         }
 
         public TModel Get(int id)
@@ -35,12 +35,9 @@ namespace Nancy.CollectionJson.DemoWrapper
         {
             //the url shouldnt be hardcoded but not sure how to resolve this
             var link = this.linkLookup.GetLink("http://localhost:9200/friends");
-            var req = new RestRequest(link, Method.GET);
 
-            req.AddHeader("Accept", acceptHeader);
 
-            var res = client.Execute<List<TModel>>(req);
-            return res.Data;
+            return new List<TModel>();
         }
 
 
