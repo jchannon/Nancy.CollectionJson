@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using RestSharp;
 using Tavis.Home;
 
@@ -10,18 +11,17 @@ namespace Nancy.CollectionJson.DemoWrapper
         public IDictionary<string, string> GetLinks()
         {
             var client = new RestClient("http://localhost:9200");
-           // client.AddHandler("application/home+json", new RestSharpServiceStackSerializer());
+            // client.AddHandler("application/home+json", new RestSharpServiceStackSerializer());
             var req = new RestRequest("/", Method.GET);
-            var res = client.Execute(req).Content;
-            try
+            var res = client.Execute(req);
+            var data = res.Content;
+            var dic = new Dictionary<string, string>();
+            var homeDoc = HomeDocument.Parse(data);
+            foreach (var resource in homeDoc.Resources)
             {
-                var homeDoc = HomeDocument.Parse(res);
+                dic.Add(resource.Relation, resource.Target.AbsolutePath);
             }
-            catch (Exception ex)
-            {
-                
-            }
-            return new Dictionary<string, string>();
+            return dic;
         }
     }
 }

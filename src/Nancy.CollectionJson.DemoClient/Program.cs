@@ -17,9 +17,15 @@ namespace Nancy.CollectionJson.DemoClient
             Thread.Sleep(1500);
 
             //Friend should be in separate viewmodels library so server and client can both use it
-            var client = new WrapperClient<Friend, Collection>(new LinkLookup(new HomeDocProvider()));
+            var ff = new LinkLookup(new HomeDocProvider());
+           
+            var client = new WrapperClient<Friend, Collection>(ff);
 
-            var friendList = client.List();
+           var friendList = client.List();
+
+         
+            
+           // ff.GetLink("dsf");
             //Console.WriteLine("We have " + friendList.Count + " friends!");
 
             //var friend = client.GetHypermedia(1);
@@ -32,7 +38,7 @@ namespace Nancy.CollectionJson.DemoClient
 
             //Console.WriteLine("Saved! Status Code: "+statuscode);
 
-            var hyperdata = client.ListHypermedia();
+        //    var hyperdata = client.ListHypermedia();
 
             //Console.WriteLine("bef");
             //Console.WriteLine(hyperdata.ToJson());
