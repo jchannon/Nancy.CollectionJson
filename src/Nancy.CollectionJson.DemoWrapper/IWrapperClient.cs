@@ -6,7 +6,7 @@ namespace Nancy.CollectionJson.DemoWrapper
 {
     public interface IWrapperClient<T,THyperMediaModel> where T:class, new() where THyperMediaModel:class, new()
     {
-        T Get(int id);
+        T Get(int id, string acceptHeader = "application/json");
 
         List<T> List(string acceptHeader = "application/json");
 

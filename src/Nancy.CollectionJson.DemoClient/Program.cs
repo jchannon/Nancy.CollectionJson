@@ -13,39 +13,26 @@ namespace Nancy.CollectionJson.DemoClient
         {
             //http://codereview.stackexchange.com/questions/16493
             Console.WriteLine("Connecting to server via wrapper...");
-            //Let server fire up
+
+            //Let the HTTP server fire up
             Thread.Sleep(1500);
 
-            //Friend should be in separate viewmodels library so server and client can both use it
-            var ff = new LinkLookup(new HomeDocProvider());
-           
-            var client = new WrapperClient<Friend, Collection>(ff);
+            var client = new WrapperClient<Friend, Collection>(new LinkLookup(new HomeDocProvider()));
 
-           var friendList = client.List();
+            var friendList = client.List();
 
-         
+            var friend = client.Get(1);
+
+            Console.WriteLine(friend.Email);
             
-           // ff.GetLink("dsf");
-            //Console.WriteLine("We have " + friendList.Count + " friends!");
+            friend.Email = "changedemail@home.com";
+            client.Save(1, friend);
+            
+            var savedfriend = client.Get(1);
+            Console.WriteLine(savedfriend.Email);
 
-            //var friend = client.GetHypermedia(1);
-
-            //friend. = "billynomates@gmail.com";
-
-            //Console.WriteLine("Lets change " + friend.FullName + " email address");
-
-            //var statuscode = client.Save(friend.Id, friend);
-
-            //Console.WriteLine("Saved! Status Code: "+statuscode);
-
-        //    var hyperdata = client.ListHypermedia();
-
-            //Console.WriteLine("bef");
-            //Console.WriteLine(hyperdata.ToJson());
-            //Console.WriteLine("aft");
-
-
-      
+            var collectionJsonList = client.ListHypermedia();
+            var collectionJsonListWithOneFriend = client.GetHypermedia(1);
 
             Console.ReadKey();
         }
