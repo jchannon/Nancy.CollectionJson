@@ -19,7 +19,7 @@ namespace Nancy.CollectionJson.Demo
                 var allfriendslink = new Link()
                 {
                     Relation = Root + "/friends",
-                    Target = new Uri("/friends", UriKind.Relative)
+                    Target = new Uri(Root + "/friends")
                 };
 
                 allfriendslink.AddHint<AllowHint>(h =>
@@ -35,7 +35,7 @@ namespace Nancy.CollectionJson.Demo
                 var friendLink = new Link()
                 {
                     Relation = Root + "/friend",
-                    Target = new Uri("/friends/{id}", UriKind.Relative)
+                    Target = new Uri(Root + "/friends/{id}")
                 };
 
                 friendLink.AddHint<AllowHint>(h =>
@@ -52,7 +52,7 @@ namespace Nancy.CollectionJson.Demo
                 var searchLink = new Link()
                 {
                     Relation = Root + "/search",
-                    Target = new Uri("/friends/search/{name}", UriKind.Relative)
+                    Target = new Uri(Root + "/friends/search/{name}")
                 };
 
                 searchLink.AddHint<AllowHint>(h =>

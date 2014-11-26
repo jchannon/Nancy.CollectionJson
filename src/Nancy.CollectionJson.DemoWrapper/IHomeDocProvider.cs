@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Nancy.CollectionJson.DemoWrapper
 {
     public interface IHomeDocProvider
     {
-        IDictionary<string, string> GetLinks();
+        IDictionary<string, Uri> GetLinks();
     }
 }

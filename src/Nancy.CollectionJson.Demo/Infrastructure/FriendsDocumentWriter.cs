@@ -33,7 +33,7 @@ namespace Nancy.CollectionJson.Demo.Infrastructure
                 collection.Items.Add(item);
             }
 
-            var query = new Query { Rel = "search", Href = new Uri(uri, "/friends"), Prompt = "Search" };
+            var query = new Query { Rel = "search", Href = new Uri(uri, "/friends/search/{searchname}"), Prompt = "Search" };
             query.Data.Add(new Data { Name = "name", Prompt = "Value to match against the Full Name" });
             collection.Queries.Add(query);
 

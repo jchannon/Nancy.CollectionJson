@@ -1,26 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using RestSharp;
 using Tavis.Home;
 
 namespace Nancy.CollectionJson.DemoWrapper
 {
     public class HomeDocProvider : IHomeDocProvider
     {
-        public IDictionary<string, string> GetLinks()
+        private readonly IApiConnection apiConnection;
+
+        public HomeDocProvider(IApiConnection apiConnection)
         {
-            var client = new RestClient("http://localhost:9200");
-            // client.AddHandler("application/home+json", new RestSharpServiceStackSerializer());
-            var req = new RestRequest(Method.GET);
-            var res = client.Execute(req);
-            var data = res.Content;
-            var dic = new Dictionary<string, string>();
+            this.apiConnection = apiConnection;
+        }
+
+        public IDictionary<string, Uri> GetLinks()
+        {
+            var data = this.apiConnection.Get();
+
+            var dic = new Dictionary<string, Uri>();
+            
             var homeDoc = HomeDocument.Parse(data);
+            
             foreach (var resource in homeDoc.Resources)
             {
-                dic.Add(resource.Relation, resource.Target.OriginalString);
+                dic.Add(resource.Relation, resource.Target);
             }
+            
             return dic;
         }
     }

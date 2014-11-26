@@ -17,22 +17,31 @@ namespace Nancy.CollectionJson.DemoClient
             //Let the HTTP server fire up
             Thread.Sleep(1500);
 
-            var client = new WrapperClient<Friend, Collection>(new LinkLookup(new HomeDocProvider()));
+            var apiConn = new ApiConnection();
 
-            var friendList = client.List();
+         
+            var client = new RootClient(new HomeDocProvider(apiConn), apiConn);
+            client.Connect();
 
-            var friend = client.Get(1);
+            var allFriendCollection = client.FriendsClient.List();
+            Console.WriteLine(allFriendCollection.Items.Count + " friends");
 
-            Console.WriteLine(friend.Email);
-            
-            friend.Email = "changedemail@home.com";
-            client.Save(1, friend);
-            
-            var savedfriend = client.Get(1);
-            Console.WriteLine(savedfriend.Email);
+            //this should throw an exception as we haven't followed the "link tree" to be able to search. (in reality search should be available up a level, I'm just using
+            //it as a method to demonstrate context specific actions
+            try
+            {
+                var contextspecificdata = client.FriendsClient.FriendClient.Search("michael");
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
 
-            var collectionJsonList = client.ListHypermedia();
-            var collectionJsonListWithOneFriend = client.GetHypermedia(1);
+            var friendCollection = client.FriendsClient.Get(1);
+
+            //Now we should be able to do context specific things on a friend now we have made a req to a friend which will have returned context specific links
+             var validcontextspecificdata = client.FriendsClient.FriendClient.Search("michael");
+            Console.WriteLine(validcontextspecificdata.Items.Count + " friends found");
 
             Console.ReadKey();
         }
